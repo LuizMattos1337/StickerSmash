@@ -1,20 +1,65 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar as StatusBarExpo } from 'expo-status-bar';
+import { StyleSheet, View, Platform, StatusBar } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+
+import Button from './components/Button';
+import ImageViewer from './components/ImageViewer';
+
+const PlaceholderImage = require('./assets/images/background-image.png');
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+	const pickImageAsync = async () => {
+		let result = await ImagePicker.launchImageLibraryAsync({
+			allowsEditing: true,
+			quality: 1,
+		});
+
+		if (!result.canceled) {
+			console.log(result);
+		} else {
+			alert('You did not select any image');
+		}
+	};
+
+	return (
+		<View style={styles.container}>
+			<View style={styles.imageContainer}>
+				<ImageViewer placeholderImageSource={PlaceholderImage} />
+				<View style={styles.footerContainer}>
+					<Button
+						label={'Choose a photo'}
+						theme={'primary'}
+						onPress={pickImageAsync}
+					/>
+					<Button label={'Use this photo'} />
+				</View>
+				<StatusBarExpo translucent={true} style='inverted' />
+			</View>
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	container: {
+		flex: 1,
+		backgroundColor: '#25292e',
+		alignItems: 'center',
+	},
+	footerContainer: {
+		flex: 1 / 3,
+		alignItems: 'center',
+	},
+	image: {
+		width: 320,
+		height: 440,
+		borderRadius: 18,
+	},
+	imageContainer: {
+		flex: 1,
+		alignItems: 'center',
+		paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight + 58 : 58,
+	},
+	text: {
+		color: '#fff',
+	},
 });
