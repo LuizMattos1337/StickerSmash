@@ -1,5 +1,5 @@
 import { StatusBar as StatusBarExpo } from 'expo-status-bar';
-import { StyleSheet, View, Platform, StatusBar, Text } from 'react-native';
+import { StyleSheet, View, Platform, StatusBar } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useRef, useState } from 'react';
 
@@ -117,7 +117,7 @@ export default function App() {
 						</View>
 					</View>
 				) : (
-					<View style={styles.footerContainer}>
+					<View style={styles.optionsContainer}>
 						<Button
 							label={'Choose a photo'}
 							theme={'primary'}
@@ -132,9 +132,7 @@ export default function App() {
 				<EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
 					<EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
 				</EmojiPicker>
-				<StatusBarExpo
-					style={Platform.OS === 'android' ? 'inverted' : 'auto'}
-				/>
+				<StatusBarExpo style={'light'} />
 			</View>
 		</GestureHandlerRootView>
 	);
